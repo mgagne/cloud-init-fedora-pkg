@@ -7,7 +7,7 @@
 
 Name:           cloud-init
 Version:        0.7.5
-Release:        6%{?dist}
+Release:        6%{?dist}.iweb1
 Summary:        Cloud instance init scripts
 
 Group:          System Environment/Base
@@ -30,6 +30,9 @@ Patch2:         cloud-init-0.7.5-udevadm-quiet.patch
 
 # there is a typo in setting.py
 Patch3:         cloud-init-settings-providers.patch
+
+# vendor_data.json/network_info support
+Patch4:         cloud-init-0.7.5-network-info-support.patch
 
 # Deal with noarch -> arch
 # https://bugzilla.redhat.com/show_bug.cgi?id=1067089
@@ -75,6 +78,7 @@ ssh keys and to let the user run various scripts.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 cp -p %{SOURCE2} README.fedora
 
@@ -164,6 +168,10 @@ fi
 
 
 %changelog
+* Wed May  6 2015 Mathieu Gagne <mgagne@iweb.com> - 0.7.5-6.iweb1
+- Import cloud-init-0.7.5-onmetal-configdrive.patch from RAX
+- See https://github.com/racker/cloud-init-fedora-pkg
+
 * Thu Jun 12 2014 Dennis Gilmore <dennis@ausil.us> - 0.7.5-6
 - fix typo in settings.py preventing metadata being fecthed in ec2
 
