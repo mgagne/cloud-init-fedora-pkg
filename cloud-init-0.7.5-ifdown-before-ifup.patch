@@ -1,0 +1,25 @@
+=== modified file 'cloudinit/distros/__init__.py'
+--- a/cloudinit/distros/__init__.py	2014-02-12 19:56:55 +0000
++++ b/cloudinit/distros/__init__.py	2014-02-17 23:54:10 +0000
+@@ -274,6 +274,20 @@
+         cmd = ['ifup', device_name]
+         LOG.debug("Attempting to run bring up interface %s using command %s",
+                    device_name, cmd)
++        self._bring_down_interface(device_name)
++        try:
++            (_out, err) = util.subp(cmd)
++            if len(err):
++                LOG.warn("Running %s resulted in stderr output: %s", cmd, err)
++            return True
++        except util.ProcessExecutionError:
++            util.logexc(LOG, "Running interface command %s failed", cmd)
++            return False
++
++    def _bring_down_interface(self, device_name):
++        cmd = ['ifdown', device_name]
++        LOG.debug("Attempting to run bring down interface %s using command %s",
++                   device_name, cmd)
+         try:
+             (_out, err) = util.subp(cmd)
+             if len(err):
+

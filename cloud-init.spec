@@ -7,7 +7,7 @@
 
 Name:           cloud-init
 Version:        0.7.5
-Release:        6%{?dist}.iweb1
+Release:        6%{?dist}.iweb2
 Summary:        Cloud instance init scripts
 
 Group:          System Environment/Base
@@ -33,6 +33,12 @@ Patch3:         cloud-init-settings-providers.patch
 
 # vendor_data.json/network_info support
 Patch4:         cloud-init-0.7.5-network-info-support.patch
+
+# Use admin_pass
+Patch5:         cloud-init-0.7.5-use-admin-pass.patch
+
+# ifdown before ifup
+Patch6:         cloud-init-0.7.5-ifdown-before-ifup.patch
 
 # Deal with noarch -> arch
 # https://bugzilla.redhat.com/show_bug.cgi?id=1067089
@@ -79,6 +85,8 @@ ssh keys and to let the user run various scripts.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
+%patch6 -p1
 
 cp -p %{SOURCE2} README.fedora
 
@@ -168,6 +176,10 @@ fi
 
 
 %changelog
+* Fri May  8 2015 Mathieu Gagne <mgagne@iweb.com> - 0.7.5-6.iweb2
+- Add cloud-init-0.7.5-network-info-support.patch
+- Add cloud-init-0.7.5-ifdown-before-ifup.patch
+
 * Wed May  6 2015 Mathieu Gagne <mgagne@iweb.com> - 0.7.5-6.iweb1
 - Import cloud-init-0.7.5-onmetal-configdrive.patch from RAX
 - See https://github.com/racker/cloud-init-fedora-pkg

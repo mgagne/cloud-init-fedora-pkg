@@ -1,0 +1,18 @@
+=== modified file 'cloudinit/config/cc_set_passwords.py'
+--- a/cloudinit/config/cc_set_passwords.py        2014-02-06 21:38:30 +0000
++++ b/cloudinit/config/cc_set_passwords.py        2014-02-19 09:23:09 +0000
+@@ -44,6 +44,12 @@
+     else:
+         password = util.get_cfg_option_str(cfg, "password", None)
+
++    # use the admin_pass available in the ConfigDrive
++    if not password:
++        metadata = cloud.datasource.metadata
++        if metadata and 'admin_pass' in metadata:
++            password = metadata['admin_pass']
++
+     expire = True
+     pw_auth = "no"
+     change_pwauth = False
+
+
